@@ -13,7 +13,7 @@ export default function Header() {
       <div className="flex flex-col items-center gap-2">
         <div className="flex items-center gap-3">
           <Shield className="h-8 w-8 text-[var(--primary)]" />
-          <h1 className="gradient-text text-2xl font-bold">性交同意確認</h1>
+          <h1 className="gradient-text text-2xl font-bold">性的同意確認</h1>
         </div>
         <div className="mt-2 space-y-1 text-center text-xs text-gray-400">
           <p>

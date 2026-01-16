@@ -72,7 +72,7 @@ export default function PDFGenerator({ answers, detailItems, isEnabled, name1, n
 
       // タイトル
       doc.setFontSize(18);
-      doc.text('性交同意確認書', 105, y, { align: 'center' });
+      doc.text('性的同意確認書', 105, y, { align: 'center' });
       y += 15;
 
       // 免責事項
