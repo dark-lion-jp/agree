@@ -78,10 +78,10 @@ export default function DetailItems({ items, name1, name2, onItemsChange }) {
 
       <div className="mb-2 flex gap-2">
         <input
-          className="flex-1 rounded-lg border border-[var(--surface-light)] bg-[var(--surface)] p-3 transition-all focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30"
+          className="min-w-0 flex-1 rounded-lg border border-[var(--surface-light)] bg-[var(--surface)] p-3 transition-all focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30"
           onChange={(e) => setNewQuestion(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="例: 同意 蓮は避妊具を使用しますか？"
+          placeholder="例: 同意 蓮は避妊具を使用します"
           type="text"
           value={newQuestion}
         />

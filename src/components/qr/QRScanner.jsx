@@ -1,215 +1,125 @@
 'use client';
 
-import jsQR from 'jsqr';
-import { Camera, CheckCircle2, ImageIcon, XCircle } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Html5Qrcode } from 'html5-qrcode';
+import { CheckCircle2, ImageIcon, Loader2, Shield, XCircle } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * QRコード読み取りコンポーネント
- * カメラまたは画像からQRコードを読み取る
+ * 画像からQRコードを読み取る（html5-qrcode使用）
  * @param {object} props - コンポーネントプロパティ
  * @param {function} props.onScanComplete - 読み取り完了時のコールバック
  * @returns {JSX.Element} QRコード読み取り要素
  */
 export default function QRScanner({ onScanComplete }) {
-  const [error, setError] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
-  const [scanResult, setScanResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [successMsg, setSuccessMsg] = useState(null);
+  const fileInputRef = useRef(null);
 
-  const animationRef = useRef(null);
-  const canvasRef = useRef(null);
-  const scanFnRef = useRef(null);
-  const streamRef = useRef(null);
-  const videoRef = useRef(null);
-
-  /**
-   * カメラストリームを停止する
-   */
-  const stopCamera = useCallback(() => {
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-      animationRef.current = null;
-    }
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
-      streamRef.current = null;
-    }
-    setIsScanning(false);
-  }, []);
-
-  // scanFnRef に最新の scanQRCode を保持
+  // html5-qrcode インスタンスのcleanup用
   useEffect(() => {
-    /**
-     * QRコードをスキャンする
-     */
-    const scanQRCode = () => {
-      const video = videoRef.current;
-      const canvas = canvasRef.current;
-
-      if (!video || !canvas || video.readyState !== video.HAVE_ENOUGH_DATA) {
-        animationRef.current = requestAnimationFrame(scanQRCode);
-        return;
-      }
-
-      const ctx = canvas.getContext('2d');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-      if (code) {
-        try {
-          const data = JSON.parse(code.data);
-          setScanResult({ data, success: true });
-          onScanComplete(data);
-          stopCamera();
-          return;
-        } catch {
-          // JSONではない場合は無視してスキャン継続
-        }
-      }
-
-      animationRef.current = requestAnimationFrame(scanQRCode);
+    return () => {
+      // コンポーネントアンマウント時のクリーンアップが必要であればここに記述
+      // Html5QrcodeはDOM要素にバインドされないスキャン(scanFile)の場合、
+      // 特段のclear処理は必須ではないが、進行中の処理があればキャンセルできるようにする
     };
-
-    scanFnRef.current = scanQRCode;
-  }, [onScanComplete, stopCamera]);
-
-  /**
-   * カメラを起動してスキャンを開始
-   */
-  const startCamera = async () => {
-    setError(null);
-    setScanResult(null);
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' },
-      });
-      streamRef.current = stream;
-
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
-        setIsScanning(true);
-
-        // ビデオが読み込まれたらスキャン開始
-        videoRef.current.onloadedmetadata = () => {
-          if (scanFnRef.current) {
-            animationRef.current = requestAnimationFrame(scanFnRef.current);
-          }
-        };
-      }
-    } catch {
-      setError('カメラへのアクセスが拒否されました。設定を確認してください。');
-    }
-  };
+  }, []);
 
   /**
    * 画像ファイルからQRコードを読み取る
    * @param {Event} e - ファイル選択イベント
    */
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    setIsScanning(true);
     setError(null);
-    setScanResult(null);
+    setSuccessMsg(null);
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
+    const html5QrCode = new Html5Qrcode('reader');
 
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-        if (code) {
-          try {
-            const data = JSON.parse(code.data);
-            setScanResult({ data, success: true });
-            onScanComplete(data);
-          } catch {
-            setError('QRコードのデータ形式が正しくありません。');
-          }
-        } else {
-          setError('QRコードが見つかりませんでした。');
-        }
-      };
-      img.src = event.target.result;
-    };
-    reader.readAsDataURL(file);
+    try {
+      const decodedText = await html5QrCode.scanFile(file, true);
+      // 成功時
+      const data = JSON.parse(decodedText);
+      setSuccessMsg('QRコードを読み取りました。フォームにデータを反映しました。');
+      onScanComplete(data);
+    } catch (err) {
+      console.error('Error scanning file:', err);
+      // エラーメッセージの振り分け
+      if (err?.name === 'SyntaxError') {
+        setError('QRコードの内容が本アプリの形式ではありません。');
+      } else {
+        setError('QRコードを検出できませんでした。別の画像を試してください。');
+      }
+    } finally {
+      setIsScanning(false);
+      // inputをリセットして同じファイルを再度選択できるようにする
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
   };
 
-  // コンポーネントがアンマウントされた時にカメラを停止
-  useEffect(() => {
-    return () => stopCamera();
-  }, [stopCamera]);
+  /**
+   * ファイル選択ダイアログを開く
+   */
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
 
   return (
     <div className="glass-card p-6">
       <h2 className="mb-4 flex items-center gap-2 font-semibold">
-        <Camera className="h-5 w-5 text-[var(--primary)]" />
+        <Shield className="h-5 w-5 text-[var(--primary)]" />
         QRコード読み取り
       </h2>
 
-      <p className="mb-4 text-sm text-gray-400">
-        カメラまたは画像からQRコードを読み取り、データをフォームに反映します。
+      <p className="mb-6 text-sm text-gray-400">
+        パートナーが作成したQRコードのスクリーンショットや画像を読み込み、氏名と詳細項目を反映します。
       </p>
 
+      {/* html5-qrcode が内部で使用するID (画面には表示しない) */}
+      <div id="reader" style={{ display: 'none' }}></div>
+
       <div className="flex flex-col gap-4">
-        <div className="flex gap-3">
-          {!isScanning ? (
-            <button
-              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[var(--primary)] py-3 font-medium transition-all hover:bg-[var(--primary-light)]"
-              onClick={startCamera}
-            >
-              <Camera className="h-5 w-5" />
-              カメラで読み取り
-            </button>
+        <input
+          accept="image/*"
+          className="hidden"
+          onChange={handleImageUpload}
+          ref={fileInputRef}
+          type="file"
+        />
+
+        <button
+          className="flex w-full flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-[var(--primary)]/50 bg-[var(--surface)] p-8 transition-all hover:bg-[var(--surface-light)] active:scale-[0.98]"
+          disabled={isScanning}
+          onClick={triggerFileInput}
+        >
+          {isScanning ? (
+            <Loader2 className="h-10 w-10 animate-spin text-[var(--primary)]" />
           ) : (
-            <button
-              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[var(--error)] py-3 font-medium transition-all hover:opacity-90"
-              onClick={stopCamera}
-            >
-              <XCircle className="h-5 w-5" />
-              スキャン停止
-            </button>
+            <ImageIcon className="h-10 w-10 text-[var(--primary)]" />
           )}
-
-          <label className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--surface-light)] py-3 font-medium transition-all hover:bg-[var(--surface-light)]">
-            <ImageIcon className="h-5 w-5" />
-            画像から読み取り
-            <input accept="image/*" className="hidden" onChange={handleImageUpload} type="file" />
-          </label>
-        </div>
-
-        {isScanning && (
-          <div className="relative overflow-hidden rounded-lg">
-            <video className="w-full" muted playsInline ref={videoRef} />
-            <canvas className="hidden" ref={canvasRef} />
-            <div className="absolute inset-0 border-4 border-[var(--primary)] opacity-50" />
-          </div>
-        )}
+          <span className="font-medium text-[var(--primary)]">
+            {isScanning ? '解析中...' : '画像を選択して読み取り'}
+          </span>
+          <span className="text-xs text-gray-500">タップしてライブラリから画像を選択</span>
+        </button>
 
         {error && (
-          <div className="flex items-center gap-2 rounded-lg border border-[var(--error)]/50 bg-[var(--error)]/10 p-3 text-sm text-[var(--error)]">
+          <div className="animate-fade-in flex items-center gap-2 rounded-lg border border-[var(--error)]/50 bg-[var(--error)]/10 p-3 text-sm text-[var(--error)]">
             <XCircle className="h-5 w-5 flex-shrink-0" />
             {error}
           </div>
         )}
 
-        {scanResult?.success && (
-          <div className="flex items-center gap-2 rounded-lg border border-[var(--success)]/50 bg-[var(--success)]/10 p-3 text-sm text-[var(--success)]">
+        {successMsg && (
+          <div className="animate-fade-in flex items-center gap-2 rounded-lg border border-[var(--success)]/50 bg-[var(--success)]/10 p-3 text-sm text-[var(--success)]">
             <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
-            QRコードを読み取りました。フォームにデータを反映しました。
+            {successMsg}
           </div>
         )}
       </div>

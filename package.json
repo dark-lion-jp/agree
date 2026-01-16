@@ -12,8 +12,8 @@
   "dependencies": {
     "@heroui/react": "^2.8.7",
     "framer-motion": "^12.26.2",
+    "html5-qrcode": "^2.3.8",
     "jspdf": "^4.0.0",
-    "jsqr": "^1.4.0",
     "lucide-react": "^0.562.0",
     "next": "16.1.2",
     "qrcode.react": "^4.2.0",

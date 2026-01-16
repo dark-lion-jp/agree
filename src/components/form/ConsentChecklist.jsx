@@ -94,7 +94,10 @@ export default function ConsentChecklist({ answers, onAnswerChange }) {
                 onClick={() => onAnswerChange(item.id, 'yes')}
               >
                 <AlertTriangle className="h-4 w-4" />
-                はい（問題あり）
+                <span className="flex flex-col items-center md:flex-row md:gap-1">
+                  <span>はい</span>
+                  <span className="text-xs">（問題あり）</span>
+                </span>
               </button>
               <button
                 className={`flex flex-1 items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm transition-all ${
@@ -105,7 +108,10 @@ export default function ConsentChecklist({ answers, onAnswerChange }) {
                 onClick={() => onAnswerChange(item.id, 'no')}
               >
                 <CheckCircle2 className="h-4 w-4" />
-                いいえ（問題なし）
+                <span className="flex flex-col items-center md:flex-row md:gap-1">
+                  <span>いいえ</span>
+                  <span className="text-xs">（問題なし）</span>
+                </span>
               </button>
             </div>
           </div>
