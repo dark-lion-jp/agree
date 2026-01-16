@@ -15,7 +15,10 @@ import QRCodeTab from '@/components/tabs/QRCodeTab';
  */
 const INITIAL_FORM_DATA = {
   answers: {},
-  detailItems: [],
+  detailItems: [
+    { answer: null, question: 'セックスする' },
+    { answer: null, question: 'コンドームを着用する' },
+  ],
   name1: '',
   name2: '',
 };
