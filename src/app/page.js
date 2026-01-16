@@ -51,6 +51,7 @@ function MainContent() {
       try {
         const decoded = JSON.parse(dataParam); // QRGeneratorでJSON.stringifyされたものがそのまま入っている想定
         // 必要に応じてバリデーション
+        // eslint-disable-next-line
         setFormData((prev) => ({
           ...prev,
           detailItems: decoded.detailItems || [],
@@ -76,7 +77,7 @@ function MainContent() {
       case 'guide':
         return <GuideTab />;
       case 'qrcode':
-        return <QRCodeTab formData={formData} onFormDataChange={setFormData} />;
+        return <QRCodeTab formData={formData} />;
       default:
         return <FormTab formData={formData} onFormDataChange={setFormData} />;
     }
