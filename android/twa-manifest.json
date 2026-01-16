@@ -17,7 +17,7 @@
   "maskableIconUrl": "https://agree-61ef5.web.app/icon-512.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
-    "path": "C:\\Users\\kunim\\Documents\\repos\\agree\\android.keystore",
+    "path": "C:\\Users\\kunim\\Documents\\repos\\agree\\android\\android.keystore",
     "alias": "android"
   },
   "appVersionName": "1",

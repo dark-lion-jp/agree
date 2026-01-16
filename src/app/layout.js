@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Noto_Sans_JP } from 'next/font/google';
 
 import './globals.css';
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ja">
       <body className={`${notoSansJP.variable} antialiased`}>{children}</body>
+      {process.env.NEXT_PUBLIC_GA_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />}
     </html>
   );
 }
