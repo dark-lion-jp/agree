@@ -4,7 +4,6 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   output: 'export',
-  trailingSlash: true,
 };
 
 export default nextConfig;
