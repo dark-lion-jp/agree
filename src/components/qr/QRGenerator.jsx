@@ -13,13 +13,19 @@ import { QRCodeSVG } from 'qrcode.react';
 export default function QRGenerator({ formData }) {
   /**
    * QRコードに含めるデータを生成
-   * 氏名と詳細項目のみを含める
+   * URLパラメータとしてデータを埋め込む
    */
-  const qrData = JSON.stringify({
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const data = JSON.stringify({
     detailItems: formData.detailItems,
     name1: formData.name1,
     name2: formData.name2,
   });
+
+  // URLを作成: baseUrl/?data=...
+  const qrUrl = new URL(baseUrl);
+  qrUrl.searchParams.set('data', data);
+  const qrData = qrUrl.toString();
 
   const hasData = formData.name1 || formData.name2 || formData.detailItems.length > 0;
 

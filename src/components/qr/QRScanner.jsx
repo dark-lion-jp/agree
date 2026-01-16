@@ -42,18 +42,31 @@ export default function QRScanner({ onScanComplete }) {
 
     try {
       const decodedText = await html5QrCode.scanFile(file, true);
-      // 成功時
-      const data = JSON.parse(decodedText);
+      let data;
+
+      try {
+        // まずJSONとしてパースを試みる (旧形式対応)
+        data = JSON.parse(decodedText);
+      } catch {
+        // JSONでなければURLとして解析を試みる
+        try {
+          const url = new URL(decodedText);
+          const dataStr = url.searchParams.get('data');
+          if (dataStr) {
+            data = JSON.parse(dataStr);
+          } else {
+            throw new Error('No data param');
+          }
+        } catch {
+          throw new Error('Invalid format');
+        }
+      }
+
       setSuccessMsg('QRコードを読み取りました。フォームにデータを反映しました。');
       onScanComplete(data);
     } catch (err) {
       console.error('Error scanning file:', err);
-      // エラーメッセージの振り分け
-      if (err?.name === 'SyntaxError') {
-        setError('QRコードの内容が本アプリの形式ではありません。');
-      } else {
-        setError('QRコードを検出できませんでした。別の画像を試してください。');
-      }
+      setError('QRコードの内容が本アプリの形式ではありません。');
     } finally {
       setIsScanning(false);
       // inputをリセットして同じファイルを再度選択できるようにする

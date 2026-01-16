@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
@@ -25,8 +26,44 @@ const INITIAL_FORM_DATA = {
  * @returns {JSX.Element} メインページ要素
  */
 export default function Home() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-[var(--primary)] border-t-transparent"></div>
+        </div>
+      }
+    >
+      <MainContent />
+    </Suspense>
+  );
+}
+
+function MainContent() {
   const [activeTab, setActiveTab] = useState('form');
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const searchParams = useSearchParams();
+
+  // URLパラメータからのデータ読み込み
+  useEffect(() => {
+    const dataParam = searchParams.get('data');
+    if (dataParam) {
+      try {
+        const decoded = JSON.parse(dataParam); // QRGeneratorでJSON.stringifyされたものがそのまま入っている想定
+        // 必要に応じてバリデーション
+        setFormData((prev) => ({
+          ...prev,
+          detailItems: decoded.detailItems || [],
+          name1: decoded.name1 || '',
+          name2: decoded.name2 || '',
+        }));
+        // データ読み込み成功時はフォームタブを表示
+        setActiveTab('form');
+      } catch (e) {
+        console.error('Failed to parse data param', e);
+      }
+    }
+  }, [searchParams]);
 
   /**
    * アクティブなタブに応じたコンテンツを返す
