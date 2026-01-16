@@ -61,11 +61,39 @@ export default function PrivacyPolicyModal({ isOpen, onClose }) {
             </p>
           </section>
 
+          <section>
+            <h3 className="mb-2 font-semibold text-white">アクセス解析ツールについて</h3>
+            <p>
+              本アプリケーションでは、サービス向上のため Google Analytics を使用しています。 Google
+              Analytics は、データの収集のために Cookie を使用する可能性があります。
+              収集されるデータには、以下の情報が含まれる場合がありますが、個人を特定する情報は含まれません。
+            </p>
+            <ul className="mt-2 list-inside list-disc space-y-1 text-gray-400">
+              <li>デバイス識別情報（デバイスIDなど）</li>
+              <li>アプリのアクティビティ（操作履歴、画面表示など）</li>
+              <li>おおよその位置情報（国、地域など）</li>
+            </ul>
+            <p className="mt-2">
+              これらのデータは、Google のプライバシーポリシーに基づいて管理されます。
+              <br />
+              <a
+                href="https://policies.google.com/technologies/partner-sites"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--primary)] underline"
+              >
+                Googleポリシーと規約
+              </a>
+            </p>
+          </section>
+
           <section className="rounded-lg border border-[var(--success)]/30 bg-[var(--success)]/10 p-3">
             <h3 className="mb-2 font-semibold text-[var(--success)]">
               プライバシーへのコミットメント
             </h3>
-            <p>私たちはお客様のプライバシーを最優先に考え、データの収集を一切行いません。</p>
+            <p>
+              私たちはお客様のプライバシーを最優先に考え、同意内容などの機微な個人情報の収集は一切行いません。
+            </p>
           </section>
         </div>
 
