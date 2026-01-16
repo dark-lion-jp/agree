@@ -29,7 +29,7 @@ export default function NameInputs({ name1, name2, onName1Change, onName2Change 
             className="w-full rounded-lg border border-[var(--surface-light)] bg-[var(--surface)] p-3 transition-all focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30"
             id="name1"
             onChange={(e) => onName1Change(e.target.value)}
-            placeholder="同意 蓮"
+            placeholder="例: 同意 れん"
             type="text"
             value={name1}
           />
@@ -43,7 +43,7 @@ export default function NameInputs({ name1, name2, onName1Change, onName2Change 
             className="w-full rounded-lg border border-[var(--surface-light)] bg-[var(--surface)] p-3 transition-all focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30"
             id="name2"
             onChange={(e) => onName2Change(e.target.value)}
-            placeholder="同意 葵"
+            placeholder="例: 同意 あおい"
             type="text"
             value={name2}
           />
