@@ -17,8 +17,8 @@ export default function TabNavigation({ activeTab, onTabChange }) {
   ];
 
   return (
-    <nav className="mb-6">
-      <div className="glass-card flex overflow-hidden p-1">
+    <nav className="sticky top-2 z-50 mb-6">
+      <div className="glass-card flex overflow-hidden p-1 backdrop-blur-md">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
