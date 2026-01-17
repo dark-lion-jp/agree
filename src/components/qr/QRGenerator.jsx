@@ -37,7 +37,7 @@ export default function QRGenerator({ formData }) {
       </h2>
 
       <p className="mb-4 text-sm text-gray-400">
-        入力した氏名と詳細項目をQRコードとして生成します。相手のスマートフォンで読み取ってデータを共有できます。
+        入力した氏名と詳細項目をQRコードとして生成します。相手のスマートフォンの標準カメラ等で読み取ってデータを共有できます。
       </p>
 
       <div className="flex flex-col items-center">
@@ -47,7 +47,7 @@ export default function QRGenerator({ formData }) {
               <QRCodeSVG includeMargin={true} level="M" size={200} value={qrData} />
             </div>
             <p className="mt-4 text-sm text-gray-400">
-              このQRコードをスキャンしてデータを読み取ってください
+              相手の端末の標準カメラアプリ等でスキャンしてください
             </p>
           </>
         ) : (

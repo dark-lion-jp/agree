@@ -1,6 +1,6 @@
-const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
+const sharp = require('sharp');
 
 const svgPath = path.join(__dirname, '../src/app/icon.svg');
 const publicDir = path.join(__dirname, '../public');

@@ -4,7 +4,7 @@ import QRGenerator from '../qr/QRGenerator';
 
 /**
  * QRコードタブコンポーネント
- * QRコードの生成と読み取り機能を提供
+ * QRコードの生成機能を提供
  * @param {object} props - コンポーネントプロパティ
  * @param {object} props.formData - フォームの状態データ
  * @returns {JSX.Element} QRコードタブ要素

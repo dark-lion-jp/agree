@@ -56,8 +56,7 @@ export default function PrivacyPolicyModal({ isOpen, onClose }) {
             <h3 className="mb-2 font-semibold text-white">QRコードについて</h3>
             <p>
               QRコードには入力した氏名と詳細条件のみが含まれます。
-              カメラを使用したQRコード読み取り機能は、ブラウザのカメラAPIを使用しますが、
-              映像データが外部に送信されることはありません。
+              本アプリケーションはQRコードの生成機能のみを提供しており、カメラ機能へのアクセスや映像データの収集は行いません。
             </p>
           </section>
 
@@ -77,10 +76,10 @@ export default function PrivacyPolicyModal({ isOpen, onClose }) {
               これらのデータは、Google のプライバシーポリシーに基づいて管理されます。
               <br />
               <a
-                href="https://policies.google.com/technologies/partner-sites"
-                target="_blank"
-                rel="noopener noreferrer"
                 className="text-[var(--primary)] underline"
+                href="https://policies.google.com/technologies/partner-sites"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 Googleポリシーと規約
               </a>
