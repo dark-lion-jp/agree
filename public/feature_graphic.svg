@@ -1,0 +1,54 @@
+<svg width="1024" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background Gradient (Dark Blue to Deep Indigo) -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e1b4b;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Brand Gradient (Purple to Cyan) for Text/Icon -->
+    <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="500" fill="url(#bgGradient)" />
+
+  <!-- Background Decor (Subtle Glows) -->
+  <circle cx="0" cy="500" r="400" fill="#8b5cf6" opacity="0.1" blur="50" />
+  <circle cx="1024" cy="0" r="400" fill="#06b6d4" opacity="0.1" blur="50" />
+
+  <!-- Center Content -->
+  <!-- 
+     Canvas Height: 500px.
+     Layout:
+       - Icon Height: ~160px (Scale 7x)
+       - Gap: 40px
+       - Title Height: ~70px (Font 90)
+     Total Content Height: ~270px.
+     Top Margin: (500 - 270) / 2 = 115px.
+     
+     Positions:
+       - Icon Center Y: 115 + 80 = 195.
+       - Title Baseline: 115 + 160 + 40 + 65 = 380.
+  -->
+  <g transform="translate(512, 0)" text-anchor="middle" font-family="'Noto Sans JP', Arial, sans-serif">
+    
+    <!-- Shield Icon (Using path from src/app/icon.svg) -->
+    <!-- Center Y: 195. Scale 7 -->
+    <g transform="translate(0, 195) scale(7) translate(-12, -12)">
+      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" 
+            fill="none" 
+            stroke="url(#brandGradient)" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" />
+    </g>
+    
+    <!-- Text: "Agree" -->
+    <!-- Using Brand Gradient. Y: 380 -->
+    <text x="0" y="380" font-size="90" font-weight="bold" fill="url(#brandGradient)">Agree</text>
+  </g>
+</svg>
