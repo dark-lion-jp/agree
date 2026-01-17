@@ -1,5 +1,6 @@
 'use client';
 
+import { RotateCcw } from 'lucide-react';
 import { useState } from 'react';
 
 import ConsentChecklist from '../form/ConsentChecklist';
@@ -12,10 +13,12 @@ import PDFGenerator from '../form/PDFGenerator';
  * 入力フォームタブコンポーネント
  * @param {object} props - コンポーネントプロパティ
  * @param {object} props.formData - フォームの状態データ
+ * @param {boolean} props.isLocked - 編集ロック状態かどうか
  * @param {function} props.onFormDataChange - フォームデータ変更時のコールバック
+ * @param {function} props.onReset - リセット時のコールバック
  * @returns {JSX.Element} 入力フォームタブ要素
  */
-export default function FormTab({ formData, onFormDataChange }) {
+export default function FormTab({ formData, isLocked, onFormDataChange, onReset }) {
   /**
    * フォームデータの特定フィールドを更新する
    * @param {string} field - 更新するフィールド名
@@ -48,7 +51,23 @@ export default function FormTab({ formData, onFormDataChange }) {
     <div className="animate-fade-in">
       <DateTimeDisplay />
 
+      {isLocked && (
+        <div className="mb-4 flex items-center justify-between rounded-lg border border-[var(--primary)]/30 bg-[var(--primary)]/10 p-3">
+          <p className="text-sm text-[var(--primary)]">
+            🔒 QRコードから読み取ったデータです（編集ロック中）
+          </p>
+          <button
+            className="flex items-center gap-1 rounded bg-[var(--surface)] px-3 py-1 text-xs font-medium text-[var(--text-secondary)] shadow-sm transition-colors hover:bg-[var(--surface-light)] hover:text-[var(--text-primary)]"
+            onClick={onReset}
+          >
+            <RotateCcw className="h-3 w-3" />
+            リセット
+          </button>
+        </div>
+      )}
+
       <NameInputs
+        isLocked={isLocked}
         name1={formData.name1}
         name2={formData.name2}
         onName1Change={(value) => updateField('name1', value)}
@@ -64,6 +83,7 @@ export default function FormTab({ formData, onFormDataChange }) {
       <ConsentChecklist answers={formData.answers} onAnswerChange={updateAnswer} />
 
       <DetailItems
+        isLocked={isLocked}
         items={formData.detailItems}
         name1={formData.name1}
         name2={formData.name2}

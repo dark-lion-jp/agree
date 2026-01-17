@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 
 import Footer from '@/components/layout/Footer';
@@ -16,8 +16,9 @@ import QRCodeTab from '@/components/tabs/QRCodeTab';
 const INITIAL_FORM_DATA = {
   answers: {},
   detailItems: [
-    { answer: null, question: '性交する' },
+    { answer: null, question: '挿入する' },
     { answer: null, question: '避妊具を着用する' },
+    { answer: null, question: '避妊具を着用しない' },
   ],
   name1: '',
   name2: '',
@@ -45,7 +46,9 @@ export default function Home() {
 function MainContent() {
   const [activeTab, setActiveTab] = useState('form');
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const [isLocked, setIsLocked] = useState(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   // URLパラメータからのデータ読み込み
   useEffect(() => {
@@ -61,6 +64,7 @@ function MainContent() {
           name1: decoded.name1 || '',
           name2: decoded.name2 || '',
         }));
+        setIsLocked(true);
         // データ読み込み成功時はフォームタブを表示
         setActiveTab('form');
       } catch (e) {
@@ -69,6 +73,12 @@ function MainContent() {
     }
   }, [searchParams]);
 
+  const handleReset = () => {
+    setFormData(INITIAL_FORM_DATA);
+    setIsLocked(false);
+    router.replace('/');
+  };
+
   /**
    * アクティブなタブに応じたコンテンツを返す
    * @returns {JSX.Element} タブコンテンツ
@@ -76,13 +86,27 @@ function MainContent() {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'form':
-        return <FormTab formData={formData} onFormDataChange={setFormData} />;
+        return (
+          <FormTab
+            formData={formData}
+            isLocked={isLocked}
+            onFormDataChange={setFormData}
+            onReset={handleReset}
+          />
+        );
       case 'guide':
         return <GuideTab />;
       case 'qrcode':
         return <QRCodeTab formData={formData} />;
       default:
-        return <FormTab formData={formData} onFormDataChange={setFormData} />;
+        return (
+          <FormTab
+            formData={formData}
+            isLocked={isLocked}
+            onFormDataChange={setFormData}
+            onReset={handleReset}
+          />
+        );
     }
   };
 

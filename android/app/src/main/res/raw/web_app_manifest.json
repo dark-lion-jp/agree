@@ -1,6 +1,6 @@
 {
-  "name": "性的同意確認アプリ",
-  "short_name": "同意確認",
+  "name": "Agree",
+  "short_name": "Agree",
   "description": "当事者間の意思確認補助を目的とした性的同意確認ツール",
   "start_url": "/",
   "display": "standalone",

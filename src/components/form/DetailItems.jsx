@@ -8,12 +8,13 @@ import { useState } from 'react';
  * 質問形式で「はい/いいえ」のラジオボタンで回答する
  * @param {object} props - コンポーネントプロパティ
  * @param {Array<{question: string, answer: string|null}>} props.items - 追加された項目のリスト
+ * @param {boolean} props.isLocked - 編集ロック状態かどうか
  * @param {function} props.onItemsChange - 項目リスト変更時のコールバック
  * @param {string} props.name1 - 氏名1（質問への注入用）
  * @param {string} props.name2 - 氏名2（質問への注入用）
  * @returns {JSX.Element} 詳細項目追加要素
  */
-export default function DetailItems({ items, name1, name2, onItemsChange }) {
+export default function DetailItems({ isLocked, items, name1, name2, onItemsChange }) {
   const [newQuestion, setNewQuestion] = useState('');
 
   /**
@@ -73,12 +74,12 @@ export default function DetailItems({ items, name1, name2, onItemsChange }) {
       </h2>
 
       <p className="mb-4 text-sm text-gray-400">
-        プレイ内容や条件について質問を追加し、「はい/いいえ」で回答してください。
+        プレイ内容や条件について質問を追加・削除し、「はい/いいえ」で回答してください。
       </p>
 
       <div className="mb-2 flex gap-2">
         <input
-          className="min-w-0 flex-1 rounded-lg border border-[var(--surface-light)] bg-[var(--surface)] p-3 text-sm transition-all placeholder:text-xs focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30 sm:text-base sm:placeholder:text-sm"
+          className="min-w-0 flex-1 rounded-lg border border-[var(--surface-light)] bg-[var(--surface)] p-2 text-sm transition-all placeholder:text-xs focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30 sm:p-3 sm:text-base sm:placeholder:text-sm"
           onChange={(e) => setNewQuestion(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder="例: 同意 れんは同意 あおいに○○をします"
@@ -86,11 +87,11 @@ export default function DetailItems({ items, name1, name2, onItemsChange }) {
           value={newQuestion}
         />
         <button
-          className="flex items-center gap-2 rounded-lg bg-[var(--primary)] px-4 py-2 font-medium transition-all hover:bg-[var(--primary-light)] disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex items-center gap-1 rounded-lg bg-[var(--primary)] px-3 py-2 text-xs font-medium transition-all hover:bg-[var(--primary-light)] disabled:cursor-not-allowed disabled:opacity-50 sm:gap-2 sm:px-4 sm:text-sm"
           disabled={!newQuestion.trim()}
           onClick={handleAddItem}
         >
-          <Plus className="h-5 w-5" />
+          <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
           追加
         </button>
       </div>
@@ -133,7 +134,8 @@ export default function DetailItems({ items, name1, name2, onItemsChange }) {
               <div className="mb-3 flex items-start justify-between">
                 <p className="flex-1 text-sm">{item.question}</p>
                 <button
-                  className="ml-2 rounded p-1 text-gray-400 transition-colors hover:bg-[var(--error)]/20 hover:text-[var(--error)]"
+                  className="ml-2 rounded p-1 text-gray-400 transition-colors hover:bg-[var(--error)]/20 hover:text-[var(--error)] disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={isLocked}
                   onClick={() => handleRemoveItem(index)}
                 >
                   <Trash2 className="h-4 w-4" />

@@ -8,11 +8,12 @@ import { User } from 'lucide-react';
  * @param {object} props - コンポーネントプロパティ
  * @param {string} props.name1 - 1人目の氏名
  * @param {string} props.name2 - 2人目の氏名
+ * @param {boolean} props.isLocked - 編集ロック状態かどうか
  * @param {function} props.onName1Change - 1人目の氏名変更時のコールバック
  * @param {function} props.onName2Change - 2人目の氏名変更時のコールバック
  * @returns {JSX.Element} 氏名入力要素
  */
-export default function NameInputs({ name1, name2, onName1Change, onName2Change }) {
+export default function NameInputs({ isLocked, name1, name2, onName1Change, onName2Change }) {
   return (
     <div className="glass-card mb-4 p-4">
       <h2 className="mb-4 flex items-center gap-2 font-semibold">
@@ -26,7 +27,8 @@ export default function NameInputs({ name1, name2, onName1Change, onName2Change 
             氏名 1
           </label>
           <input
-            className="w-full rounded-lg border border-[var(--surface-light)] bg-[var(--surface)] p-3 transition-all focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30"
+            className="w-full rounded-lg border border-[var(--surface-light)] bg-[var(--surface)] p-3 transition-all focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={isLocked}
             id="name1"
             onChange={(e) => onName1Change(e.target.value)}
             placeholder="例: 同意 れん"
@@ -40,7 +42,8 @@ export default function NameInputs({ name1, name2, onName1Change, onName2Change 
             氏名 2
           </label>
           <input
-            className="w-full rounded-lg border border-[var(--surface-light)] bg-[var(--surface)] p-3 transition-all focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30"
+            className="w-full rounded-lg border border-[var(--surface-light)] bg-[var(--surface)] p-3 transition-all focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={isLocked}
             id="name2"
             onChange={(e) => onName2Change(e.target.value)}
             placeholder="例: 同意 あおい"
