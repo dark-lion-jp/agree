@@ -1,0 +1,63 @@
+<svg width="1024" height="1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0e7490;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bgGradient)" />
+
+  <!-- Background Pattern Effect -->
+  <circle cx="0" cy="0" r="800" fill="url(#bgGradient)" opacity="0.5" />
+
+  <!-- Safe Zone Guides -->
+  <rect x="0" y="0" width="1024" height="262" fill="rgba(0,0,0,0.3)" />
+  <rect x="0" y="762" width="1024" height="262" fill="rgba(0,0,0,0.3)" />
+
+  <!-- Center Content -->
+  <!-- 
+    Layout Calculation for Vertical Centering:
+    Total Content Height: ~425px
+      - Icon: 240px
+      - Gap: 40px
+      - Title: 75px (Cap Height)
+      - Gap: 40px
+      - Subtitle: 30px (Cap Height)
+    
+    Y Coordinates (relative to center 512, 512):
+      - Icon Top: -212.5
+      - Icon Center: -92.5
+      - Icon Bottom: 27.5
+      - Title Top: 67.5 (Gap 40)
+      - Title Baseline: 142.5
+      - Subtitle Top: 182.5 (Gap 40)
+      - Subtitle Baseline: 212.5
+  -->
+  <g transform="translate(512, 512)" text-anchor="middle" font-family="Arial, sans-serif">
+    
+    <!-- Shield Icon (Lucide-style) -->
+    <!-- Center Y: -92.5 -->
+    <g transform="translate(0, -92.5) scale(10) translate(-12, -12)">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" 
+            fill="none" 
+            stroke="white" 
+            stroke-width="1.5" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" />
+    </g>
+    
+    <!-- Text: "Agree" -->
+    <!-- Baseline Y: 142.5 -->
+    <text x="0" y="142.5" font-size="100" font-weight="bold" fill="white">Agree</text>
+    
+    <!-- Subtitle -->
+    <!-- Baseline Y: 212.5 -->
+    <text x="0" y="212.5" font-size="40" fill="#cbd5e1">Sexual Consent Confirmation</text>
+  </g>
+
+  <!-- Labels -->
+  <text x="20" y="130" font-size="30" fill="white" opacity="0.5">CROP ZONE (Top 262px)</text>
+  <text x="20" y="900" font-size="30" fill="white" opacity="0.5">CROP ZONE (Bottom 262px)</text>
+</svg>

@@ -1,8 +1,8 @@
 {
   "packageId": "app.web.agree_61ef5.twa",
   "host": "agree-61ef5.web.app",
-  "name": "性的同意",
-  "launcherName": "性的同意",
+  "name": "Agree",
+  "launcherName": "Agree",
   "display": "standalone",
   "themeColor": "#FFFFFF",
   "themeColorDark": "#000000",

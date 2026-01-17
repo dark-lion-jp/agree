@@ -11,10 +11,10 @@ const notoSansJP = Noto_Sans_JP({
 
 export const metadata = {
   description:
-    '当事者間の意思確認補助を目的とした性的同意確認ツール。プライバシーを最優先し、データはすべてクライアントサイドで処理されます。',
-  keywords: '同意確認, 性的同意, コンセント, 意思確認',
+    '当事者間の意思確認補助を目的とした性的同意確認ツール「Agree」。プライバシーを最優先し、データはすべてクライアントサイドで処理されます。',
+  keywords: 'Agree, 同意確認, 性的同意, コンセント, 意思確認',
   robots: 'noindex, nofollow',
-  title: '性的同意アプリ',
+  title: 'Agree',
 };
 
 /**
