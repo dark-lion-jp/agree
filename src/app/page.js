@@ -16,8 +16,8 @@ import QRCodeTab from '@/components/tabs/QRCodeTab';
 const INITIAL_FORM_DATA = {
   answers: {},
   detailItems: [
-    { answer: null, question: 'セックスする' },
-    { answer: null, question: 'コンドームを着用する' },
+    { answer: null, question: '性交する' },
+    { answer: null, question: '避妊具を着用する' },
   ],
   name1: '',
   name2: '',
