@@ -1,6 +1,14 @@
 'use client';
 
-import { AlertTriangle, CheckCircle2, ListPlus, Plus, Trash2, UserPlus } from 'lucide-react';
+import {
+  AlertTriangle,
+  CheckCircle2,
+  ListPlus,
+  MinusCircle,
+  Plus,
+  Trash2,
+  UserPlus,
+} from 'lucide-react';
 import { useState } from 'react';
 
 /**
@@ -127,7 +135,9 @@ export default function DetailItems({ isLocked, items, name1, name2, onItemsChan
                   ? 'border-[var(--success)]/50 bg-[var(--success)]/10'
                   : item.answer === 'no'
                     ? 'border-[var(--warning)]/50 bg-[var(--warning)]/10'
-                    : 'border-[var(--surface-light)] bg-[var(--surface)]'
+                    : item.answer === 'na'
+                      ? 'border-gray-500/50 bg-gray-500/5'
+                      : 'border-[var(--surface-light)] bg-[var(--surface)]'
               }`}
               key={index}
             >
@@ -164,6 +174,17 @@ export default function DetailItems({ isLocked, items, name1, name2, onItemsChan
                 >
                   <AlertTriangle className="h-4 w-4" />
                   いいえ
+                </button>
+                <button
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm transition-all ${
+                    item.answer === 'na'
+                      ? 'border-gray-500 bg-gray-500/20 text-gray-500'
+                      : 'border-[var(--surface-light)] hover:border-gray-500/50'
+                  }`}
+                  onClick={() => handleAnswerChange(index, 'na')}
+                >
+                  <MinusCircle className="h-4 w-4" />
+                  回答しない
                 </button>
               </div>
             </div>
