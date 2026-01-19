@@ -110,7 +110,8 @@ export default function PDFGenerator({ answers, detailItems, isEnabled, name1, n
       doc.setFontSize(10);
       CONSENT_QUESTIONS.forEach((q, index) => {
         const status = answers[q.id] === 'no' ? '[OK]' : '[NG]';
-        doc.text(`${index + 1}. ${q.category}: ${status}`, 25, y);
+        // 入力フォームと同じ質問文を表示
+        doc.text(`${index + 1}. ${q.question} ${status}`, 25, y);
         y += 6;
       });
 
@@ -125,7 +126,7 @@ export default function PDFGenerator({ answers, detailItems, isEnabled, name1, n
         doc.setFontSize(10);
         detailItems.forEach((item) => {
           const answer =
-            item.answer === 'yes' ? '[はい]' : item.answer === 'no' ? '[いいえ]' : '[?]';
+            item.answer === 'yes' ? '[はい]' : item.answer === 'no' ? '[いいえ]' : '[回答しない]';
           doc.text(`${item.question}: ${answer}`, 25, y);
           y += 6;
         });

@@ -9,13 +9,14 @@ import { Shield } from 'lucide-react';
  */
 export default function Header() {
   return (
-    <header className="glass-card mb-6 p-4">
-      <div className="flex flex-col items-center gap-2">
-        <div className="flex items-center gap-3">
-          <Shield className="h-8 w-8 text-[var(--primary)]" />
-          <h1 className="gradient-text text-2xl font-bold">Agree</h1>
+    <header className="glass-card mb-6 px-6 pt-5 pb-8">
+      <div className="flex flex-col items-center gap-4">
+        <div className="flex items-center gap-4 overflow-visible">
+          <Shield className="h-16 w-16 text-[var(--primary)]" />
+          <h1 className="gradient-text text-6xl font-bold leading-normal">Agree</h1>
         </div>
-        <div className="mt-2 space-y-1 text-center text-xs text-gray-400">
+        <p className="text-lg text-gray-300">〜 相互同意確認ツール 〜</p>
+        <div className="space-y-1 text-center text-sm text-gray-400">
           <p>
             本アプリは意思確認の補助ツールであり、
             <br className="sm:hidden" />
