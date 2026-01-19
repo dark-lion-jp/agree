@@ -30,7 +30,6 @@ export default function DateTimeDisplay() {
       hour: '2-digit',
       minute: '2-digit',
       month: 'long',
-      second: '2-digit',
       weekday: 'short',
       year: 'numeric',
     });

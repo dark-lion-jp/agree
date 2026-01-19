@@ -154,7 +154,7 @@ export default function DetailItems({ isLocked, items, name1, name2, onItemsChan
 
               <div className="flex gap-3">
                 <button
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm transition-all ${
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg border px-2 py-2 text-sm whitespace-nowrap transition-all sm:px-4 ${
                     item.answer === 'yes'
                       ? 'border-[var(--success)] bg-[var(--success)]/20 text-[var(--success)]'
                       : 'border-[var(--surface-light)] hover:border-[var(--success)]/50'
@@ -165,7 +165,7 @@ export default function DetailItems({ isLocked, items, name1, name2, onItemsChan
                   はい
                 </button>
                 <button
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm transition-all ${
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg border px-2 py-2 text-sm whitespace-nowrap transition-all sm:px-4 ${
                     item.answer === 'no'
                       ? 'border-[var(--warning)] bg-[var(--warning)]/20 text-[var(--warning)]'
                       : 'border-[var(--surface-light)] hover:border-[var(--warning)]/50'
@@ -176,7 +176,7 @@ export default function DetailItems({ isLocked, items, name1, name2, onItemsChan
                   いいえ
                 </button>
                 <button
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm transition-all ${
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg border px-2 py-2 text-sm whitespace-nowrap transition-all sm:px-4 ${
                     item.answer === 'na'
                       ? 'border-gray-500 bg-gray-500/20 text-gray-500'
                       : 'border-[var(--surface-light)] hover:border-gray-500/50'
