@@ -15,9 +15,17 @@
  */
 
 import groovy.xml.MarkupBuilder
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     id 'com.android.application'
+}
+
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
 def twaManifest = [
@@ -51,6 +59,14 @@ def twaManifest = [
 ]
 
 android {
+    signingConfigs {
+        release {
+            keyAlias = keystoreProperties['keyAlias']
+            keyPassword = keystoreProperties['keyPassword']
+            storeFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword = keystoreProperties['storePassword']
+        }
+    }
     compileSdkVersion 36
     namespace "app.web.agree_61ef5.twa"
     defaultConfig {
@@ -152,6 +168,7 @@ android {
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
         }
     }
